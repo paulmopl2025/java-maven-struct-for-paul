@@ -121,32 +121,32 @@
 ## 🐕 Módulo de Clientes
 
 ### 1. Domain Layer
-- [ ] Entity: Cliente
+- [x] Entity: Cliente
 - [ ] Value Object: Documento (tipo y número)
 - [ ] Value Object: Dirección
-- [ ] Repository Interface: ClienteRepository
+- [x] Repository Interface: ClienteRepository
 
 ### 2. Application Layer
-- [ ] UseCase: RegisterCliente
-- [ ] UseCase: UpdateCliente
-- [ ] UseCase: SearchCliente
+- [x] UseCase: RegisterCliente
+- [x] UseCase: UpdateCliente
+- [x] UseCase: SearchCliente
 - [ ] UseCase: GetClienteWithMascotas
-- [ ] DTO: ClienteDTO, CreateClienteDTO, UpdateClienteDTO
+- [x] DTO: ClienteDTO, CreateClienteDTO, UpdateClienteDTO
 
 ### 3. Infrastructure Layer
-- [ ] JPA Repository: ClienteJpaRepository
+- [x] JPA Repository: ClienteJpaRepository
 - [ ] Repository Implementation: ClienteRepositoryImpl
-- [ ] Mapper: ClienteMapper
+- [x] Mapper: ClienteMapper
 
 ### 4. Presentation Layer
-- [ ] Controller: ClienteController
+- [x] Controller: ClienteController
 - [ ] Endpoints:
-  - [ ] GET /api/clientes - Listar clientes (paginado)
-  - [ ] GET /api/clientes/{id} - Obtener cliente por ID
+  - [x] GET /api/clientes - Listar clientes (paginado)
+  - [x] GET /api/clientes/{id} - Obtener cliente por ID
   - [ ] GET /api/clientes/search - Buscar clientes
-  - [ ] POST /api/clientes - Crear cliente
-  - [ ] PUT /api/clientes/{id} - Actualizar cliente
-  - [ ] DELETE /api/clientes/{id} - Desactivar cliente
+  - [x] POST /api/clientes - Crear cliente
+  - [x] PUT /api/clientes/{id} - Actualizar cliente
+  - [x] DELETE /api/clientes/{id} - Desactivar cliente
 
 ---
 
