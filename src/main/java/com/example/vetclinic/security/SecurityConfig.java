@@ -34,8 +34,20 @@ public class SecurityConfig {
                 .csrf().disable()
                 .exceptionHandling(eh -> eh.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers(
+                                new org.springframework.security.web.util.matcher.AntPathRequestMatcher("/api/auth/**"))
+                        .permitAll()
+                        .requestMatchers(new org.springframework.security.web.util.matcher.AntPathRequestMatcher(
+                                "/v3/api-docs/**"))
+                        .permitAll()
+                        .requestMatchers(new org.springframework.security.web.util.matcher.AntPathRequestMatcher(
+                                "/swagger-ui/**"))
+                        .permitAll()
+                        .requestMatchers(new org.springframework.security.web.util.matcher.AntPathRequestMatcher(
+                                "/h2-console/**"))
+                        .permitAll()
                         .anyRequest().authenticated())
+                .headers(headers -> headers.frameOptions().disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter,
                         org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
