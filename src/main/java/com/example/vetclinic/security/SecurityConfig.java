@@ -18,16 +18,21 @@ public class SecurityConfig {
 
     private final UserJpaRepository userRepo;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public SecurityConfig(UserJpaRepository userRepo, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(UserJpaRepository userRepo,
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.userRepo = userRepo;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .exceptionHandling(eh -> eh.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())

@@ -1,39 +1,40 @@
 package com.example.vetclinic.presentation.controller;
 
-import com.example.vetclinic.application.dto.CreateUserDTO;
-import com.example.vetclinic.application.dto.UserDTO;
-import com.example.vetclinic.application.mapper.UserMapper;
+import com.example.vetclinic.application.dto.auth.JwtAuthenticationResponse;
+import com.example.vetclinic.application.dto.auth.LoginRequest;
+import com.example.vetclinic.application.dto.auth.SignUpRequest;
+import com.example.vetclinic.application.service.AuthService;
 import com.example.vetclinic.domain.model.User;
-import com.example.vetclinic.infrastructure.persistence.UserJpaRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserJpaRepository userRepo;
-    private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
+    private final AuthService authService;
 
-    public AuthController(UserJpaRepository userRepo, PasswordEncoder passwordEncoder, UserMapper userMapper) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(authService.authenticateUser(loginRequest));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@Valid @RequestBody CreateUserDTO dto) {
-        User user = User.builder()
-                .username(dto.getUsername())
-                .email(dto.getEmail())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .build();
-
-        user = userRepo.save(user);
-        return ResponseEntity.ok(userMapper.toDto(user));
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        try {
+            User user = authService.registerUser(signUpRequest);
+            return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

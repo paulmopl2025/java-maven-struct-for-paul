@@ -64,16 +64,16 @@
 - [ ] Relación Rol-Permiso (Many-to-Many)
 
 ### 2. Configuración de Seguridad
-- [ ] SecurityConfig - Configuración de Spring Security
-- [ ] JwtAuthenticationFilter - Filtro para validar tokens
-- [ ] JwtTokenProvider - Generación y validación de tokens
-- [ ] PasswordEncoder - BCrypt para encriptación
+- [x] SecurityConfig - Configuración de Spring Security
+- [x] JwtAuthenticationFilter - Filtro para validar tokens
+- [x] JwtTokenProvider - Generación y validación de tokens
+- [x] PasswordEncoder - BCrypt para encriptación
 - [ ] CorsConfiguration - Configuración de CORS
-- [ ] AuthenticationEntryPoint - Manejo de errores de autenticación
+- [x] AuthenticationEntryPoint - Manejo de errores de autenticación
 
 ### 3. Endpoints de Autenticación
-- [ ] POST /api/auth/register - Registro de usuarios
-- [ ] POST /api/auth/login - Inicio de sesión
+- [x] POST /api/auth/register - Registro de usuarios
+- [x] POST /api/auth/login - Inicio de sesión
 - [ ] POST /api/auth/refresh - Renovar token
 - [ ] POST /api/auth/logout - Cerrar sesión
 - [ ] GET /api/auth/profile - Obtener perfil del usuario
