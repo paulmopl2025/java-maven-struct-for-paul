@@ -153,33 +153,33 @@
 ## 🐾 Módulo de Mascotas
 
 ### 1. Domain Layer
-- [ ] Entity: Mascota
+- [x] Entity: Mascota
 - [ ] Value Object: Especie (enum)
 - [ ] Value Object: Raza
 - [ ] Value Object: Peso
-- [ ] Repository Interface: MascotaRepository
+- [x] Repository Interface: MascotaRepository
 
 ### 2. Application Layer
-- [ ] UseCase: RegisterMascota
-- [ ] UseCase: UpdateMascota
+- [x] UseCase: RegisterMascota
+- [x] UseCase: UpdateMascota
 - [ ] UseCase: AssociateMascotaToCliente
-- [ ] UseCase: GetMascotasByCliente
-- [ ] DTO: MascotaDTO, CreateMascotaDTO, UpdateMascotaDTO
+- [x] UseCase: GetMascotasByCliente
+- [x] DTO: MascotaDTO, CreateMascotaDTO, UpdateMascotaDTO
 
 ### 3. Infrastructure Layer
-- [ ] JPA Repository: MascotaJpaRepository
+- [x] JPA Repository: MascotaJpaRepository
 - [ ] Repository Implementation: MascotaRepositoryImpl
-- [ ] Mapper: MascotaMapper
+- [x] Mapper: MascotaMapper
 
 ### 4. Presentation Layer
-- [ ] Controller: MascotaController
+- [x] Controller: MascotaController
 - [ ] Endpoints:
-  - [ ] GET /api/mascotas - Listar mascotas
-  - [ ] GET /api/mascotas/{id} - Obtener mascota por ID
-  - [ ] GET /api/clientes/{clienteId}/mascotas - Mascotas por cliente
-  - [ ] POST /api/mascotas - Crear mascota
-  - [ ] PUT /api/mascotas/{id} - Actualizar mascota
-  - [ ] DELETE /api/mascotas/{id} - Desactivar mascota
+  - [x] GET /api/mascotas - Listar mascotas
+  - [x] GET /api/mascotas/{id} - Obtener mascota por ID
+  - [x] GET /api/clientes/{clienteId}/mascotas - Mascotas por cliente
+  - [x] POST /api/mascotas - Crear mascota
+  - [x] PUT /api/mascotas/{id} - Actualizar mascota
+  - [x] DELETE /api/mascotas/{id} - Desactivar mascota
 
 ---
 
@@ -424,15 +424,15 @@
 ## 📈 Fases del Proyecto
 
 ### Fase 1: Fundación (Semanas 1-2)
-- [ ] Setup inicial del proyecto
-- [ ] Configuración de base de datos
-- [ ] Módulo de seguridad y autenticación
-- [ ] Configuraciones transversales
+- [x] Setup inicial del proyecto
+- [x] Configuración de base de datos
+- [x] Módulo de seguridad y autenticación
+- [x] Configuraciones transversales
 
 ### Fase 2: Módulos Core (Semanas 3-5)
-- [ ] Módulo de Usuarios
-- [ ] Módulo de Clientes
-- [ ] Módulo de Mascotas
+- [x] Módulo de Usuarios
+- [x] Módulo de Clientes
+- [x] Módulo de Mascotas
 - [ ] Módulo de Servicios
 
 ### Fase 3: Módulos de Negocio (Semanas 6-8)
@@ -457,9 +457,9 @@
 
 ## 🔄 Estado Actual del Proyecto
 
-**Fase Actual:** Planificación
-**Última Actualización:** [Fecha]
-**Progreso General:** 0%
+**Fase Actual:** Fase 2: Módulos Core
+**Última Actualización:** 2025-11-19
+**Progreso General:** 40%
 
 ---
 
