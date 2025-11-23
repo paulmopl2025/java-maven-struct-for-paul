@@ -143,7 +143,7 @@ public class AppointmentsWindow extends BasicWindow {
 
         String dateStr = new TextInputDialogBuilder()
                 .setTitle("Date (YYYY-MM-DD)")
-                .setInitialContent(java.time.LocalDate.now().toString())
+                .setInitialContent(java.time.LocalDate.now().plusDays(1).toString())
                 .build()
                 .showDialog(gui);
         if (dateStr == null)
@@ -163,6 +163,13 @@ public class AppointmentsWindow extends BasicWindow {
         try {
             LocalDateTime dateTime = LocalDateTime.parse(dateStr + "T" + timeStr);
 
+            // Validate that the date is in the future
+            if (dateTime.isBefore(LocalDateTime.now())) {
+                MessageDialog.showMessageDialog(gui, "Error",
+                        "Appointment date must be in the future.\nPlease select a date and time after now.");
+                return;
+            }
+
             CreateAppointmentRequest request = new CreateAppointmentRequest(dateTime, notes, petId, vetId, serviceId);
             Appointment created = appointmentService.createAppointment(request);
 
@@ -170,10 +177,11 @@ public class AppointmentsWindow extends BasicWindow {
                 MessageDialog.showMessageDialog(gui, "Success", "Appointment created with ID: " + created.getId());
                 refreshTable();
             } else {
-                MessageDialog.showMessageDialog(gui, "Error", "Failed to create appointment.");
+                MessageDialog.showMessageDialog(gui, "Error",
+                        "Failed to create appointment.\nCheck console for details.");
             }
         } catch (DateTimeParseException | NumberFormatException e) {
-            MessageDialog.showMessageDialog(gui, "Error", "Invalid input format.");
+            MessageDialog.showMessageDialog(gui, "Error", "Invalid input format.\nDate: YYYY-MM-DD\nTime: HH:MM");
         }
     }
 

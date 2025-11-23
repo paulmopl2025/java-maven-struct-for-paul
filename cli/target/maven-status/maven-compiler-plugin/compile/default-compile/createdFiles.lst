@@ -28,7 +28,9 @@ com/example/vetclinic/cli/client/OwnerClient.class
 com/example/vetclinic/cli/model/UpdatePetRequest.class
 com/example/vetclinic/cli/model/LoginResponse.class
 com/example/vetclinic/cli/service/AuthService.class
+com/example/vetclinic/cli/ui/modules/ServicesWindow$1.class
 com/example/vetclinic/cli/model/ServiceType.class
+com/example/vetclinic/cli/ui/modules/ServicesWindow.class
 com/example/vetclinic/cli/model/CreateServiceRequest.class
 com/example/vetclinic/cli/model/CreateOwnerRequest.class
 com/example/vetclinic/cli/client/ApiClient.class

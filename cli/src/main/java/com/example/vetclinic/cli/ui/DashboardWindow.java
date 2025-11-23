@@ -5,6 +5,7 @@ import com.example.vetclinic.cli.ui.modules.AppointmentsWindow;
 import com.example.vetclinic.cli.ui.modules.ClinicStatsWindow;
 import com.example.vetclinic.cli.ui.modules.OwnersWindow;
 import com.example.vetclinic.cli.ui.modules.PetsWindow;
+import com.example.vetclinic.cli.ui.modules.ServicesWindow;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
@@ -41,6 +42,7 @@ public class DashboardWindow extends BasicWindow {
         sidebarPanel.addComponent(new Button("Home", this::showHome));
         sidebarPanel.addComponent(new Button("Owners", this::showOwners));
         sidebarPanel.addComponent(new Button("Pets", this::showPets));
+        sidebarPanel.addComponent(new Button("Services", this::showServices));
         sidebarPanel.addComponent(new Button("Appointments", this::showAppointments));
         sidebarPanel.addComponent(new Button("Medical History", this::showMedicalHistory));
 
@@ -94,6 +96,10 @@ public class DashboardWindow extends BasicWindow {
                 new com.example.vetclinic.cli.service.PetService(authService),
                 new com.example.vetclinic.cli.service.UserService(authService),
                 new com.example.vetclinic.cli.service.ServiceService(authService)).show();
+    }
+
+    private void showServices() {
+        new ServicesWindow(gui, new com.example.vetclinic.cli.service.ServiceService(authService)).show();
     }
 
     private void showMedicalHistory() {
