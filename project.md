@@ -471,6 +471,40 @@
 
 ---
 
+---
+
+## 🖥️ Cliente CLI (Terminal User Interface)
+
+### 1. Stack Tecnológico
+- [x] **Lenguaje:** Java 17
+- [x] **TUI Library:** Lanterna 3.x
+- [x] **HTTP Client:** Retrofit 2.x + Jackson
+- [x] **Storage:** JSON (session.json)
+
+### 2. Arquitectura del Cliente
+- [x] **Entry Point:** VetClinicCLI
+- [x] **UI Layer:** Windows, Panels, Tables (Lanterna)
+- [x] **Service Layer:** AuthService, OwnerService, PetService, etc.
+- [x] **Client Layer:** Retrofit Interfaces (AuthClient, OwnerClient, etc.)
+- [x] **Model Layer:** DTOs espejo del backend
+
+### 3. Funcionalidades Implementadas
+- [x] **Autenticación:** Login con JWT y persistencia de sesión
+- [x] **Dashboard:** Menú lateral dinámico según rol
+- [x] **Módulo Owners:** Listar, Crear, Eliminar
+- [x] **Módulo Pets:** Listar, Crear, Eliminar
+- [x] **Módulo Appointments:** Listar, Crear, Completar, Cancelar
+- [ ] **Módulo Medical History:** Ver historial, Agregar registros (Pendiente)
+- [x] **Módulo Clinic Stats:** Visualización de estadísticas
+
+### 4. Estructura de Navegación
+- **LoginWindow:** Pantalla de inicio de sesión
+- **DashboardWindow:** Contenedor principal
+    - **Sidebar:** Botones de navegación
+    - **Content Area:** Paneles dinámicos (OwnersWindow, PetsWindow, etc.)
+
+---
+
 ## 🎯 Prompt para Agentes IA
 
 ```
