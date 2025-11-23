@@ -94,7 +94,7 @@ public class DashboardWindow extends BasicWindow {
         new AppointmentsWindow(gui,
                 new com.example.vetclinic.cli.service.AppointmentService(authService),
                 new com.example.vetclinic.cli.service.PetService(authService),
-                new com.example.vetclinic.cli.service.UserService(authService),
+                new com.example.vetclinic.cli.service.VetService(authService),
                 new com.example.vetclinic.cli.service.ServiceService(authService)).show();
     }
 

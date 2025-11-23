@@ -18,20 +18,20 @@ public class AppointmentsWindow extends BasicWindow {
 
     private final AppointmentService appointmentService;
     private final com.example.vetclinic.cli.service.PetService petService;
-    private final com.example.vetclinic.cli.service.UserService userService;
+    private final com.example.vetclinic.cli.service.VetService vetService;
     private final com.example.vetclinic.cli.service.ServiceService serviceService;
     private final WindowBasedTextGUI gui;
     private final Table<String> table;
 
     public AppointmentsWindow(WindowBasedTextGUI gui, AppointmentService appointmentService,
             com.example.vetclinic.cli.service.PetService petService,
-            com.example.vetclinic.cli.service.UserService userService,
+            com.example.vetclinic.cli.service.VetService vetService,
             com.example.vetclinic.cli.service.ServiceService serviceService) {
         super("Appointments Management");
         this.gui = gui;
         this.appointmentService = appointmentService;
         this.petService = petService;
-        this.userService = userService;
+        this.vetService = vetService;
         this.serviceService = serviceService;
 
         Panel rootPanel = new Panel();
@@ -42,7 +42,7 @@ public class AppointmentsWindow extends BasicWindow {
         toolbar.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
         toolbar.addComponent(new Button("Refresh", this::refreshTable));
         toolbar.addComponent(new Button("Create New", this::createAppointment));
-        toolbar.addComponent(new Button("Complete", () -> updateStatus("COMPLETED")));
+        toolbar.addComponent(new Button("Confirm", () -> updateStatus("CONFIRMED")));
         toolbar.addComponent(new Button("Cancel", () -> updateStatus("CANCELLED")));
         toolbar.addComponent(new Button("Close", this::close));
 
@@ -55,7 +55,7 @@ public class AppointmentsWindow extends BasicWindow {
             new com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder()
                     .setTitle("Options")
                     .setDescription("Select an action")
-                    .addAction("Complete", () -> updateStatus("COMPLETED"))
+                    .addAction("Confirm", () -> updateStatus("CONFIRMED"))
                     .addAction("Cancel", () -> updateStatus("CANCELLED"))
                     .addAction("Back", () -> {
                     })
@@ -106,7 +106,7 @@ public class AppointmentsWindow extends BasicWindow {
         Long petId = selectedPetId.get();
 
         // Select Vet
-        List<com.example.vetclinic.cli.model.UserDTO> vets = userService.getVets();
+        List<com.example.vetclinic.cli.model.VetDTO> vets = vetService.getAllVets();
         if (vets.isEmpty()) {
             MessageDialog.showMessageDialog(gui, "Error", "No vets found.");
             return;
@@ -114,8 +114,8 @@ public class AppointmentsWindow extends BasicWindow {
         com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder vetSelector = new com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder()
                 .setTitle("Select Vet");
         final java.util.concurrent.atomic.AtomicReference<Long> selectedVetId = new java.util.concurrent.atomic.AtomicReference<>();
-        for (com.example.vetclinic.cli.model.UserDTO vet : vets) {
-            vetSelector.addAction(vet.getDisplayName() + " (ID: " + vet.getId() + ")",
+        for (com.example.vetclinic.cli.model.VetDTO vet : vets) {
+            vetSelector.addAction("Dr. " + vet.getFullName(),
                     () -> selectedVetId.set(vet.getId()));
         }
         vetSelector.build().showDialog(gui);

@@ -8,6 +8,7 @@
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/client/PetClient.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/client/ServiceClient.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/client/UserClient.java
+/Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/client/VetClient.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/Appointment.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/ClinicStatsDTO.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/CreateAppointmentRequest.java
@@ -26,6 +27,7 @@
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/UpdateOwnerRequest.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/UpdatePetRequest.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/UserDTO.java
+/Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/VetDTO.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/service/AppointmentService.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/service/AuthService.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/service/ClinicService.java
@@ -34,6 +36,7 @@
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/service/PetService.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/service/ServiceService.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/service/UserService.java
+/Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/service/VetService.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/storage/StorageService.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/ui/DashboardWindow.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/ui/LoginWindow.java

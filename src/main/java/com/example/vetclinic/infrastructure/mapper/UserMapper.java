@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public interface UserMapper {
 
     @Mapping(target = "roles", source = "roles", qualifiedByName = "mapRoles")
+    @Mapping(target = "fullName", source = "username")
     UserDTO toDTO(User user);
 
     @Named("mapRoles")
