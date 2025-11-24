@@ -4,6 +4,7 @@ import com.example.vetclinic.cli.client.ApiClient;
 import com.example.vetclinic.cli.client.AppointmentClient;
 import com.example.vetclinic.cli.model.Appointment;
 import com.example.vetclinic.cli.model.CreateAppointmentRequest;
+import com.example.vetclinic.cli.model.UpdateAppointmentRequest;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -34,6 +35,16 @@ public class AppointmentService {
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    public boolean updateAppointment(Long id, UpdateAppointmentRequest request) {
+        try {
+            Response<Appointment> response = appointmentClient.updateAppointment(getToken(), id, request).execute();
+            return response.isSuccessful();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public Appointment createAppointment(CreateAppointmentRequest request) {

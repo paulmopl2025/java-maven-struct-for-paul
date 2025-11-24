@@ -47,7 +47,7 @@ public class PetController {
     }
 
     @PostMapping("/pets")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPCIONISTA', 'VET', 'USER')")
     @Operation(summary = "Create pet", description = "Register a new pet")
     public ResponseEntity<PetDTO> createPet(@Valid @RequestBody CreatePetDTO createPetDTO) {
         return new ResponseEntity<>(petService.createPet(createPetDTO), HttpStatus.CREATED);

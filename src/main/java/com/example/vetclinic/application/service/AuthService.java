@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Set;
 
 @Service
 public class AuthService {
@@ -47,7 +48,12 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        return new JwtAuthenticationResponse(jwt);
+
+        Set<String> roles = authentication.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(java.util.stream.Collectors.toSet());
+
+        return new JwtAuthenticationResponse(jwt, roles);
     }
 
     public User registerUser(SignUpRequest signUpRequest) {

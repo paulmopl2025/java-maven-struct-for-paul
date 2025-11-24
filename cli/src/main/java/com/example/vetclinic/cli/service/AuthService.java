@@ -40,7 +40,12 @@ public class AuthService {
                 // NOTE: Based on backend implementation, LoginResponse might just have "token".
                 // Let's verify the backend LoginResponse structure.
 
-                this.currentSession = new Session(body.getAccessToken(), username, "UNKNOWN"); // Role to be fetched
+                String role = "UNKNOWN";
+                if (body.getRoles() != null && !body.getRoles().isEmpty()) {
+                    role = body.getRoles().iterator().next();
+                }
+
+                this.currentSession = new Session(body.getAccessToken(), username, role);
                 storageService.saveSession(currentSession);
                 return null; // Success
             } else {

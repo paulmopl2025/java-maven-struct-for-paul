@@ -24,6 +24,7 @@
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/ServiceDTO.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/ServiceType.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/Session.java
+/Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/UpdateAppointmentRequest.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/UpdateOwnerRequest.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/UpdatePetRequest.java
 /Users/paulmoreno/Documents/proyectosJAVA/java-maven-struct-for-paul/cli/src/main/java/com/example/vetclinic/cli/model/UserDTO.java

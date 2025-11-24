@@ -22,6 +22,7 @@ public class MedicalHistoryWindow extends BasicWindow {
     private final com.example.vetclinic.cli.service.UserService userService;
     private final WindowBasedTextGUI gui;
     private final Table<String> table;
+    private List<MedicalRecord> records;
 
     public MedicalHistoryWindow(WindowBasedTextGUI gui, MedicalRecordService medicalRecordService,
             com.example.vetclinic.cli.service.PetService petService,
@@ -47,7 +48,10 @@ public class MedicalHistoryWindow extends BasicWindow {
         // Table
         table = new Table<>("ID", "Date", "Pet", "Diagnosis", "Treatment", "Vet");
         table.setSelectAction(() -> {
-            // Future: View details
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1 && records != null && selectedRow < records.size()) {
+                showMedicalRecordDetails(records.get(selectedRow));
+            }
         });
 
         rootPanel.addComponent(table.withBorder(Borders.singleLine()), BorderLayout.Location.CENTER);
@@ -60,7 +64,7 @@ public class MedicalHistoryWindow extends BasicWindow {
 
     private void refreshTable() {
         table.getTableModel().clear();
-        List<MedicalRecord> records = medicalRecordService.getAllMedicalRecords();
+        this.records = medicalRecordService.getAllMedicalRecords();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         for (MedicalRecord record : records) {
@@ -139,10 +143,10 @@ public class MedicalHistoryWindow extends BasicWindow {
 
         String diagnosis = new TextInputDialogBuilder().setTitle("Diagnosis").build().showDialog(gui);
         String treatment = new TextInputDialogBuilder().setTitle("Treatment").build().showDialog(gui);
-        String notes = new TextInputDialogBuilder().setTitle("Notes").build().showDialog(gui);
+        String notes = new TextInputDialogBuilder().setTitle("Observations / Notes").build().showDialog(gui);
         String weightStr = new TextInputDialogBuilder().setTitle("Weight (kg)").build().showDialog(gui);
         String tempStr = new TextInputDialogBuilder().setTitle("Temperature (C)").build().showDialog(gui);
-        String vaccine = new TextInputDialogBuilder().setTitle("Vaccine").build().showDialog(gui);
+        String vaccine = new TextInputDialogBuilder().setTitle("Vaccines Administered").build().showDialog(gui);
 
         try {
             LocalDateTime recordDate = LocalDateTime.parse(dateStr + "T" + timeStr);
@@ -163,6 +167,42 @@ public class MedicalHistoryWindow extends BasicWindow {
         } catch (DateTimeParseException | NumberFormatException e) {
             MessageDialog.showMessageDialog(gui, "Error", "Invalid input format.");
         }
+    }
+
+    private void showMedicalRecordDetails(MedicalRecord record) {
+        StringBuilder details = new StringBuilder();
+        details.append("========================================\n");
+        details.append("       MEDICAL HISTORY REPORT\n");
+        details.append("========================================\n\n");
+
+        details.append("DATE: ").append(record.getRecordDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .append("\n");
+        details.append("VETERINARIAN: ").append(record.getVetName() != null ? record.getVetName() : "N/A").append("\n");
+        details.append("----------------------------------------\n");
+        details.append("PATIENT INFO:\n");
+        details.append("  Name: ").append(record.getPetName() != null ? record.getPetName() : "N/A").append("\n");
+        details.append("  ID:   ").append(record.getPetId()).append("\n");
+        details.append("----------------------------------------\n");
+        details.append("VITALS:\n");
+        details.append("  Weight:      ")
+                .append(record.getWeight() != null ? record.getWeight() + " kg" : "Not Recorded").append("\n");
+        details.append("  Temperature: ")
+                .append(record.getTemperature() != null ? record.getTemperature() + " C" : "Not Recorded").append("\n");
+        details.append("----------------------------------------\n");
+        details.append("CLINICAL DETAILS:\n");
+        details.append("  Diagnosis: \n    ").append(record.getDiagnosis()).append("\n\n");
+        details.append("  Treatment: \n    ").append(record.getTreatment()).append("\n\n");
+        details.append("  Vaccines:  \n    ")
+                .append(record.getVaccineAdministered() != null && !record.getVaccineAdministered().isEmpty()
+                        ? record.getVaccineAdministered()
+                        : "None")
+                .append("\n");
+        details.append("----------------------------------------\n");
+        details.append("OBSERVATIONS / NOTES:\n");
+        details.append("  ").append(record.getNotes() != null ? record.getNotes() : "None").append("\n");
+        details.append("========================================\n");
+
+        MessageDialog.showMessageDialog(gui, "Medical Record Details", details.toString());
     }
 
     public void show() {

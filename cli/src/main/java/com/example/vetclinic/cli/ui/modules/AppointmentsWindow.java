@@ -2,6 +2,7 @@ package com.example.vetclinic.cli.ui.modules;
 
 import com.example.vetclinic.cli.model.Appointment;
 import com.example.vetclinic.cli.model.CreateAppointmentRequest;
+import com.example.vetclinic.cli.model.UpdateAppointmentRequest;
 import com.example.vetclinic.cli.service.AppointmentService;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
@@ -22,6 +23,7 @@ public class AppointmentsWindow extends BasicWindow {
     private final com.example.vetclinic.cli.service.ServiceService serviceService;
     private final WindowBasedTextGUI gui;
     private final Table<String> table;
+    private List<Appointment> appointments;
 
     public AppointmentsWindow(WindowBasedTextGUI gui, AppointmentService appointmentService,
             com.example.vetclinic.cli.service.PetService petService,
@@ -42,6 +44,7 @@ public class AppointmentsWindow extends BasicWindow {
         toolbar.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
         toolbar.addComponent(new Button("Refresh", this::refreshTable));
         toolbar.addComponent(new Button("Create New", this::createAppointment));
+        toolbar.addComponent(new Button("Edit", this::editAppointment));
         toolbar.addComponent(new Button("Confirm", () -> updateStatus("CONFIRMED")));
         toolbar.addComponent(new Button("Cancel", () -> updateStatus("CANCELLED")));
         toolbar.addComponent(new Button("Close", this::close));
@@ -55,6 +58,7 @@ public class AppointmentsWindow extends BasicWindow {
             new com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder()
                     .setTitle("Options")
                     .setDescription("Select an action")
+                    .addAction("Edit", this::editAppointment)
                     .addAction("Confirm", () -> updateStatus("CONFIRMED"))
                     .addAction("Cancel", () -> updateStatus("CANCELLED"))
                     .addAction("Back", () -> {
@@ -73,7 +77,7 @@ public class AppointmentsWindow extends BasicWindow {
 
     private void refreshTable() {
         table.getTableModel().clear();
-        List<Appointment> appointments = appointmentService.getAllAppointments();
+        this.appointments = appointmentService.getAllAppointments();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         for (Appointment appt : appointments) {
@@ -186,6 +190,126 @@ public class AppointmentsWindow extends BasicWindow {
             } else {
                 MessageDialog.showMessageDialog(gui, "Error",
                         "Failed to create appointment.\nCheck console for details.");
+            }
+        } catch (Exception e) {
+            MessageDialog.showMessageDialog(gui, "Error", "An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void editAppointment() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            MessageDialog.showMessageDialog(gui, "Warning", "Please select an appointment to edit.");
+            return;
+        }
+
+        if (appointments == null || selectedRow >= appointments.size()) {
+            return;
+        }
+
+        Appointment currentAppointment = appointments.get(selectedRow);
+
+        // Select Vet (Default to current)
+        List<com.example.vetclinic.cli.model.VetDTO> vets = vetService.getAllVets();
+        if (vets.isEmpty()) {
+            MessageDialog.showMessageDialog(gui, "Error", "No vets found.");
+            return;
+        }
+
+        com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder vetSelector = new com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder()
+                .setTitle("Select Vet (Current: " + currentAppointment.getVetName() + ")");
+
+        final java.util.concurrent.atomic.AtomicReference<Long> selectedVetId = new java.util.concurrent.atomic.AtomicReference<>(
+                currentAppointment.getVetId());
+
+        for (com.example.vetclinic.cli.model.VetDTO vet : vets) {
+            vetSelector.addAction("Dr. " + vet.getFullName(), () -> selectedVetId.set(vet.getId()));
+        }
+        // Add option to keep current if not in list (though it should be)
+        vetSelector.addAction("Keep Current", () -> selectedVetId.set(currentAppointment.getVetId()));
+
+        vetSelector.build().showDialog(gui);
+        Long vetId = selectedVetId.get();
+
+        // Select Service
+        List<com.example.vetclinic.cli.model.ServiceDTO> services = serviceService.getAllServices();
+        if (services.isEmpty()) {
+            MessageDialog.showMessageDialog(gui, "Error", "No services found.");
+            return;
+        }
+
+        com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder serviceSelector = new com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder()
+                .setTitle("Select Service (Current: " + currentAppointment.getServiceName() + ")");
+
+        final java.util.concurrent.atomic.AtomicReference<Long> selectedServiceId = new java.util.concurrent.atomic.AtomicReference<>(
+                currentAppointment.getServiceId());
+
+        for (com.example.vetclinic.cli.model.ServiceDTO service : services) {
+            serviceSelector.addAction(service.getName(), () -> selectedServiceId.set(service.getId()));
+        }
+        serviceSelector.addAction("Keep Current", () -> selectedServiceId.set(currentAppointment.getServiceId()));
+
+        serviceSelector.build().showDialog(gui);
+        Long serviceId = selectedServiceId.get();
+
+        // Get service duration
+        com.example.vetclinic.cli.model.ServiceDTO selectedService = services.stream()
+                .filter(s -> s.getId().equals(serviceId))
+                .findFirst()
+                .orElse(null);
+
+        int serviceDuration = (selectedService != null && selectedService.getEstimatedDurationMinutes() != null)
+                ? selectedService.getEstimatedDurationMinutes()
+                : 30;
+
+        // Date Selection
+        java.time.LocalDate selectedDate = com.example.vetclinic.cli.ui.components.CalendarDialog.showCalendar(
+                gui, "Select Date (Current: " + currentAppointment.getAppointmentDate().toLocalDate() + ")");
+
+        if (selectedDate == null) {
+            return;
+        }
+
+        // Time Selection
+        List<Appointment> existingAppointments = appointmentService.getAppointmentsByVetAndDate(vetId, selectedDate);
+
+        // Exclude current appointment from existing appointments to allow keeping same
+        // slot
+        existingAppointments.removeIf(a -> a.getId().equals(currentAppointment.getId()));
+
+        LocalDateTime selectedDateTime = com.example.vetclinic.cli.ui.components.TimeSlotSelector.selectTimeSlot(
+                gui, selectedDate, existingAppointments, serviceDuration);
+
+        if (selectedDateTime == null) {
+            return;
+        }
+
+        // Notes
+        String currentNotes = currentAppointment.getNotes() != null ? currentAppointment.getNotes() : "";
+        String notes = new TextInputDialogBuilder()
+                .setTitle("Notes")
+                .setInitialContent(currentNotes)
+                .build()
+                .showDialog(gui);
+
+        try {
+            UpdateAppointmentRequest request = new UpdateAppointmentRequest();
+            request.setAppointmentDate(selectedDateTime);
+            request.setNotes(notes);
+            request.setVetId(vetId);
+            request.setServiceId(serviceId);
+            // Pet ID is not updatable in backend DTO, so we ignore it or set it to same
+            // (doesn't matter)
+            request.setPetId(currentAppointment.getPetId());
+
+            boolean success = appointmentService.updateAppointment(currentAppointment.getId(), request);
+
+            if (success) {
+                MessageDialog.showMessageDialog(gui, "Success", "Appointment updated successfully!");
+                refreshTable();
+            } else {
+                MessageDialog.showMessageDialog(gui, "Error", "Failed to update appointment.");
             }
         } catch (Exception e) {
             MessageDialog.showMessageDialog(gui, "Error", "An error occurred: " + e.getMessage());

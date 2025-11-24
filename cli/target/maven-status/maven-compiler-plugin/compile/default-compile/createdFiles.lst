@@ -30,6 +30,7 @@ com/example/vetclinic/cli/model/Appointment.class
 com/example/vetclinic/cli/client/AuthClient.class
 com/example/vetclinic/cli/model/LoginRequest.class
 com/example/vetclinic/cli/ui/modules/OwnersWindow.class
+com/example/vetclinic/cli/model/UpdateAppointmentRequest.class
 com/example/vetclinic/cli/client/UserClient.class
 com/example/vetclinic/cli/service/VetService.class
 com/example/vetclinic/cli/model/CreateAppointmentRequest.class

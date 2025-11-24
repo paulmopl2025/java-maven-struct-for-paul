@@ -2,6 +2,7 @@ package com.example.vetclinic.cli.client;
 
 import com.example.vetclinic.cli.model.Appointment;
 import com.example.vetclinic.cli.model.CreateAppointmentRequest;
+import com.example.vetclinic.cli.model.UpdateAppointmentRequest;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -19,6 +20,10 @@ public interface AppointmentClient {
 
     @POST("appointments")
     Call<Appointment> createAppointment(@Header("Authorization") String token, @Body CreateAppointmentRequest request);
+
+    @PUT("appointments/{id}")
+    Call<Appointment> updateAppointment(@Header("Authorization") String token, @Path("id") Long id,
+            @Body UpdateAppointmentRequest request);
 
     @PATCH("appointments/{id}/confirm")
     Call<Appointment> confirmAppointment(@Header("Authorization") String token, @Path("id") Long id);
