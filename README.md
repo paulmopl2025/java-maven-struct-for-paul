@@ -358,6 +358,7 @@ services:
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Arquitectura detallada del sistema
 - [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) - Documentación completa de la API
 - [CLI_DOCUMENTATION.md](./CLI_DOCUMENTATION.md) - Guía completa del cliente CLI
+- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Estructura del proyecto y diagrama UML
 - [project.md](./project.md) - Plan de proyecto y estado de desarrollo
 
 ## 🤝 Contribución
