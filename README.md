@@ -28,6 +28,7 @@ Sistema integral de gestión para clínicas veterinarias desarrollado con Spring
 - **Servicios Veterinarios**: Catálogo de servicios disponibles
 - **Autenticación JWT**: Sistema seguro de autenticación basado en tokens
 - **API RESTful**: API completa documentada con Swagger/OpenAPI
+- **Interfaz de Línea de Comandos (CLI)**: Cliente TUI completo para gestión administrativa.
 - **Auditoría**: Sistema de auditoría automática (createdBy, modifiedBy, timestamps)
 
 ## 🛠️ Tecnologías
@@ -43,6 +44,8 @@ Sistema integral de gestión para clínicas veterinarias desarrollado con Spring
 - **Lombok** - Reducción de código boilerplate
 - **SpringDoc OpenAPI** - Documentación de API (Swagger)
 - **Maven** - Gestión de dependencias
+- **Lanterna** - Librería para TUI (Terminal UI)
+- **Retrofit** - Cliente HTTP para la CLI
 
 ## 📦 Requisitos
 
@@ -111,6 +114,19 @@ chmod +x run.sh
 ```
 
 La aplicación estará disponible en: `http://localhost:8080`
+
+### 5. Ejecutar la CLI (Cliente de Terminal)
+
+Para iniciar la interfaz de usuario en terminal:
+
+```bash
+chmod +x run_cli.sh
+./run_cli.sh
+```
+
+> **Nota**: Asegúrate de que la aplicación backend esté ejecutándose antes de iniciar la CLI.
+
+Para una guía completa de uso, arquitectura y solución de problemas, consulta la [Documentación del Cliente CLI](./CLI_DOCUMENTATION.md).
 
 ## ⚙️ Configuración
 
@@ -224,6 +240,22 @@ src/main/java/com/example/vetclinic/
 │   ├── JwtTokenProvider.java
 │   └── JwtAuthenticationFilter.java
 └── config/              # Configuraciones generales
+
+#### Estructura de la CLI
+
+El cliente de terminal (`cli/`) sigue su propia estructura modular:
+
+```
+cli/src/main/java/com/example/vetclinic/cli/
+├── client/          # Clientes HTTP (Retrofit) para consumir la API
+├── config/          # Configuración (ApiClient, etc.)
+├── model/           # Modelos de datos (DTOs)
+├── service/         # Lógica de negocio y orquestación
+├── storage/         # Almacenamiento local (Sesión)
+└── ui/              # Interfaz de Usuario (Lanterna)
+    ├── components/  # Componentes reutilizables de UI
+    └── modules/     # Ventanas y módulos principales (Owners, Pets, etc.)
+```
 ```
 
 Para más detalles sobre la arquitectura, consulta [ARCHITECTURE.md](./ARCHITECTURE.md).
@@ -325,6 +357,7 @@ services:
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Arquitectura detallada del sistema
 - [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) - Documentación completa de la API
+- [CLI_DOCUMENTATION.md](./CLI_DOCUMENTATION.md) - Guía completa del cliente CLI
 - [project.md](./project.md) - Plan de proyecto y estado de desarrollo
 
 ## 🤝 Contribución

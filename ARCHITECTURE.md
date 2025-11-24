@@ -368,6 +368,49 @@ module/
     └── controller/EntityController.java
 ```
 
+## 🖥️ Arquitectura del Cliente CLI
+
+El cliente de línea de comandos (`cli/`) sigue una arquitectura en capas simplificada, diseñada para separar la interfaz de usuario de la lógica de negocio y la comunicación con la API.
+
+### Estructura de Capas CLI
+
+1.  **UI Layer (`ui/`)**:
+    - Responsable de la interacción con el usuario usando **Lanterna**.
+    - Organizada en `modules` (ventanas funcionales) y `components` (elementos reutilizables).
+    - **No contiene lógica de negocio compleja**, solo lógica de presentación.
+
+2.  **Service Layer (`service/`)**:
+    - Actúa como intermediario entre la UI y el Cliente API.
+    - Maneja la lógica de negocio del lado del cliente.
+    - Gestiona el estado de la sesión (`AuthService`).
+
+3.  **Client Layer (`client/`)**:
+    - Define las interfaces de comunicación con el Backend usando **Retrofit**.
+    - Mapea los endpoints REST a métodos Java.
+
+4.  **Model Layer (`model/`)**:
+    - Contiene los DTOs (Data Transfer Objects) que reflejan la estructura de datos de la API.
+
+### Flujo de Datos CLI
+
+```
+1. Usuario interactúa con UI (Ventana)
+   ↓
+2. UI llama a Service
+   ↓
+3. Service llama a Client (Retrofit)
+   ↓
+4. Client hace HTTP Request al Backend
+   ↓
+5. Backend responde
+   ↓
+6. Client retorna Call/Response
+   ↓
+7. Service procesa respuesta y retorna Modelo
+   ↓
+8. UI actualiza la vista
+```
+
 ## 🚀 Ventajas de esta Arquitectura
 
 1. **Testabilidad**: Fácil de testear cada capa independientemente
